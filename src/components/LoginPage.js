@@ -2,7 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { auth } from '../firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { Flame, Sparkles, ShieldCheck } from 'lucide-react';
+import { Sparkles, ShieldCheck } from 'lucide-react';
+import logoImage from '../assets/klogo-160.webp';
 
 const LoginPage = () => {
 
@@ -35,12 +36,10 @@ const LoginPage = () => {
       >
         {/* Logo Section */}
         <div className="flex flex-col items-center gap-4 mb-8">
-          <div className="p-4 bg-orange-600 rounded-2xl shadow-lg shadow-orange-200">
-            <Flame size={32} className="text-white" />
-          </div>
+          <img src={logoImage} alt="KumbhPrasad logo" className="w-20 h-20 rounded-2xl object-contain bg-orange-50 p-2 shadow-lg shadow-orange-200 border border-orange-100" width="80" height="80" />
           <div>
             <h1 className="text-3xl font-serif font-black text-[#2D1B08] tracking-tighter">
-              KUMBH<span className="text-orange-600">PRASHAD</span>
+              KUMBH<span className="text-orange-600">PRASAD</span>
             </h1>
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-400 mt-1">
               Shubh Aagman • Nashik 2026
@@ -49,9 +48,9 @@ const LoginPage = () => {
         </div>
 
         <div className="mb-10">
-          <h2 className="text-xl font-bold text-slate-800 mb-2">Prashad Seva mein Login Karein</h2>
+          <h2 className="text-xl font-bold text-slate-800 mb-2">Prasad Seva mein Login Karein</h2>
           <p className="text-sm text-slate-500 font-medium leading-relaxed px-4">
-            Apne Google account ka upyog karke surakshit roop se login karein aur apna Pavitra Prashad track karein.
+            Apne Google account ka upyog karke surakshit roop se login karein aur apna Pavitra Prasad track karein.
           </p>
         </div>
 

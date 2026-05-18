@@ -91,7 +91,7 @@ const ContactPage = () => {
                        <div className="p-3.5 bg-orange-600 rounded-xl shadow-lg shadow-orange-900/20"><Mail size={22}/></div>
                        <div>
                          <p className="text-[10px] font-black text-orange-400 uppercase tracking-[0.2em] mb-1">Email Support</p>
-                         <p className="font-bold text-lg text-orange-50">seva@kumbhprashad.com</p>
+                         <p className="font-bold text-lg text-orange-50">seva@kumbhprasad.app</p>
                        </div>
                     </div>
                   </div>
@@ -108,7 +108,7 @@ const ContactPage = () => {
                 </div>
                 <div>
                    <h4 className="text-lg font-bold uppercase tracking-tighter leading-none">Global Delivery</h4>
-                   <p className="text-[11px] font-medium text-orange-100 mt-1 uppercase tracking-widest">Nashik to the India</p>
+                   <p className="text-[11px] font-medium text-orange-100 mt-1 uppercase tracking-widest">Nashik to India</p>
                 </div>
              </div>
           </div>

@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { db } from '../firebase';
 import { 
   collection, query, orderBy, limit, getDocs, 
   startAfter, limitToLast, endBefore, doc, updateDoc 
 } from 'firebase/firestore';
 import { 
-  Package, IndianRupee, ChevronLeft, ChevronRight, List
+  Package, IndianRupee, ChevronLeft, ChevronRight
 } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 const AdminPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [lastVisible, setLastVisible] = useState(null);
-  const [firstVisible, setFirstVisible] = useState(null);
+  const lastVisibleRef = useRef(null);
+  const firstVisibleRef = useRef(null);
   const [page, setPage] = useState(1);
   
   // --- ✨ Naya State Stats ke liye ---
@@ -23,7 +22,7 @@ const AdminPage = () => {
   });
 
   // --- 📊 SARE ORDERS KA TOTAL CALCULATE KARNA ---
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "orders"));
       let revenue = 0;
@@ -38,19 +37,19 @@ const AdminPage = () => {
     } catch (error) {
       console.error("Stats fetch error:", error);
     }
-  };
+  }, []);
 
   // --- 🛰️ FETCH ORDERS FOR TABLE ---
-  const fetchOrders = async (direction = 'initial') => {
+  const fetchOrders = useCallback(async (direction = 'initial') => {
     setLoading(true);
     try {
       let q;
       const ordersCol = collection(db, "orders");
 
-      if (direction === 'next' && lastVisible) {
-        q = query(ordersCol, orderBy("timestamp", "desc"), startAfter(lastVisible), limit(10));
-      } else if (direction === 'prev' && firstVisible) {
-        q = query(ordersCol, orderBy("timestamp", "desc"), endBefore(firstVisible), limitToLast(10));
+      if (direction === 'next' && lastVisibleRef.current) {
+        q = query(ordersCol, orderBy("timestamp", "desc"), startAfter(lastVisibleRef.current), limit(10));
+      } else if (direction === 'prev' && firstVisibleRef.current) {
+        q = query(ordersCol, orderBy("timestamp", "desc"), endBefore(firstVisibleRef.current), limitToLast(10));
       } else {
         q = query(ordersCol, orderBy("timestamp", "desc"), limit(10));
       }
@@ -59,19 +58,19 @@ const AdminPage = () => {
       const ordersData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
       setOrders(ordersData);
-      setFirstVisible(snapshot.docs[0]);
-      setLastVisible(snapshot.docs[snapshot.docs.length - 1]);
+      firstVisibleRef.current = snapshot.docs[0] || null;
+      lastVisibleRef.current = snapshot.docs[snapshot.docs.length - 1] || null;
     } catch (error) {
       console.error("Admin fetch error:", error);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => { 
     fetchOrders(); 
     fetchStats(); // Stats ko bhi load karo
-  }, []);
+  }, [fetchOrders, fetchStats]);
 
   const handleStatusChange = async (orderId, newStatus) => {
     try {

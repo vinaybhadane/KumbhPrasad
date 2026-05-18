@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom'; 
 import { 
-  ShoppingCart, Menu, X, Search, Flame, Sparkles, 
+  ShoppingCart, Menu, X, Sparkles, 
   Home, ShoppingBag, Info, PhoneCall, LogOut, User, ChevronDown 
 } from 'lucide-react';
 
-import bgImage from '../assets/background.jpg';
+import bgImage from '../assets/background-optimized.jpg';
+import logoImage from '../assets/klogo-160.webp';
 import Cart from './Cart'; 
 
 const Navbar = ({ cartCount, cartItems = [], onUpdateQty, onRemove, user, onLoginClick, onLogout, onCheckout }) => {
@@ -24,7 +25,7 @@ const Navbar = ({ cartCount, cartItems = [], onUpdateQty, onRemove, user, onLogi
 
   const menuItems = [
     { name: 'Home', to: '/', icon: <Home size={22} /> },
-    { name: 'Prashad Store', to: '/store', icon: <ShoppingBag size={22} /> },
+    { name: 'Prasad Store', to: '/store', icon: <ShoppingBag size={22} /> },
     { name: 'About Us', to: '/about', icon: <Info size={22} /> },
     { name: 'Contact Us', to: '/contact', icon: <PhoneCall size={22} /> },
   ];
@@ -56,14 +57,12 @@ const Navbar = ({ cartCount, cartItems = [], onUpdateQty, onRemove, user, onLogi
                 transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
                 className="absolute inset-0 border-2 rounded-full border-dashed border-orange-400/40"
               />
-              <div className="relative p-2.5 rounded-xl bg-orange-600 shadow-xl">
-                <Flame size={22} className="text-white" strokeWidth={2.5} />
-              </div>
+              <img src={logoImage} alt="KumbhPrasad logo" className="relative w-11 h-11 rounded-xl object-contain bg-white/95 shadow-xl p-1.5" width="44" height="44" />
             </div>
             
             <div className="flex flex-col">
               <span className="text-xl md:text-2xl font-serif font-black text-white drop-shadow-md leading-none">
-                KUMBH<span className="text-yellow-400">PRASHAD</span>
+                KUMBH<span className="text-yellow-400">PRASAD</span>
               </span>
               <div className="flex items-center gap-1 mt-1">
                 <Sparkles size={10} className="text-yellow-500" />
@@ -91,8 +90,6 @@ const Navbar = ({ cartCount, cartItems = [], onUpdateQty, onRemove, user, onLogi
           {/* ACTION BUTTONS */}
           <div className="flex items-center gap-3 md:gap-6">
             <div className="flex items-center gap-4 text-white">
-              <Search size={20} className="hidden md:block cursor-pointer hover:text-yellow-400 transition-colors" />
-              
               <div onClick={() => setIsCartOpen(true)} className="relative cursor-pointer hover:scale-110 transition-transform active:scale-90">
                 <ShoppingCart size={22} />
                 {cartCount > 0 && (
@@ -110,9 +107,9 @@ const Navbar = ({ cartCount, cartItems = [], onUpdateQty, onRemove, user, onLogi
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="flex items-center gap-3 bg-black/20 backdrop-blur-md p-1.5 pr-4 rounded-2xl border border-white/10 cursor-pointer hover:bg-black/30 transition-all"
                 >
-                  <img src={user.photoURL} alt="profile" className="w-9 h-9 rounded-xl border-2 border-orange-500" />
+                  <img src={user.photoURL || logoImage} alt="profile" className="w-9 h-9 rounded-xl border-2 border-orange-500 object-cover" />
                   <span className="text-[10px] font-black text-white uppercase tracking-wider">
-                    {user.displayName.split(' ')[0]}
+                    {(user.displayName || 'Devotee').split(' ')[0]}
                   </span>
                   <ChevronDown size={14} className={`text-orange-400 transition-transform duration-300 ${isProfileOpen ? 'rotate-180' : ''}`} />
                 </motion.div>
@@ -173,15 +170,15 @@ const Navbar = ({ cartCount, cartItems = [], onUpdateQty, onRemove, user, onLogi
             <div className="flex justify-between items-center p-6 bg-white border-b border-orange-100 shadow-sm">
               {user ? (
                 <div className="flex items-center gap-3">
-                  <img src={user.photoURL} alt="user" className="w-12 h-12 rounded-xl border-2 border-orange-500" />
+                  <img src={user.photoURL || logoImage} alt="user" className="w-12 h-12 rounded-xl border-2 border-orange-500 object-cover" />
                   <div className="flex flex-col">
-                    <span className="text-sm font-black text-slate-900 uppercase">Jai Ho, {user.displayName.split(' ')[0]}</span>
+                    <span className="text-sm font-black text-slate-900 uppercase">Jai Ho, {(user.displayName || 'Devotee').split(' ')[0]}</span>
                     <Link to="/profile" onClick={() => setIsOpen(false)} className="text-[10px] font-bold text-orange-600 uppercase">View Profile</Link>
                   </div>
                 </div>
               ) : (
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-orange-600 rounded-lg text-white"><Flame size={20} /></div>
+                  <img src={logoImage} alt="KumbhPrasad logo" className="w-10 h-10 rounded-lg object-contain bg-orange-50 p-1" width="40" height="40" />
                   <span className="font-serif font-black text-xl text-slate-900 uppercase tracking-tighter">Kumbh Menu</span>
                 </div>
               )}

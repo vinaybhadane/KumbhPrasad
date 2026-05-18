@@ -3,10 +3,11 @@ import { motion } from 'framer-motion';
 import { db } from '../firebase';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { 
-  User, Package, MapPin, Clock, ChevronRight, 
+  Package, MapPin, Clock, 
   ShoppingBag, LogOut, Calendar, Star, ShieldCheck, Sparkles, List
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import logoImage from '../assets/klogo-160.webp';
 
 const ProfilePage = ({ user, onLogout }) => {
   const [orders, setOrders] = useState([]);
@@ -64,7 +65,7 @@ const ProfilePage = ({ user, onLogout }) => {
             <div className="px-8 pb-8">
               <div className="relative -mt-12 mb-4">
                 <img 
-                  src={user.photoURL} 
+                  src={user.photoURL || logoImage} 
                   alt="Profile" 
                   className="w-24 h-24 rounded-3xl border-4 border-white shadow-lg mx-auto object-cover"
                 />
@@ -74,7 +75,7 @@ const ProfilePage = ({ user, onLogout }) => {
               </div>
               
               <div className="text-center space-y-1">
-                <h2 className="text-2xl font-serif font-black text-[#2D1B08]">{user.displayName}</h2>
+                <h2 className="text-2xl font-serif font-black text-[#2D1B08]">{user.displayName || 'KumbhPrasad Devotee'}</h2>
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{user.email}</p>
               </div>
 

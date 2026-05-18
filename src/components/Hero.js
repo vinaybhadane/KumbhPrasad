@@ -1,9 +1,11 @@
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown, ShieldCheck, MapPin, Sparkles, Clock, ArrowRight } from 'lucide-react';
-import bgImage from '../assets/background.jpg';
+import { useNavigate } from 'react-router-dom';
+import bgImage from '../assets/background-optimized.jpg';
 
 const Hero = () => {
+  const navigate = useNavigate();
   const { scrollY } = useScroll();
   
   const y1 = useTransform(scrollY, [0, 500], [0, 150]);
@@ -54,7 +56,7 @@ const Hero = () => {
           <span className="relative inline-block mt-6">
             <span className="absolute inset-0 bg-white/75 backdrop-blur-md -rotate-1 rounded-2xl scale-110 shadow-sm border border-orange-100"></span>
             <span className="relative text-orange-600 italic px-8">
-              Pavitra Prashad
+              Pavitra Prasad
             </span>
           </span>
         </motion.h1>
@@ -88,14 +90,14 @@ const Hero = () => {
           transition={{ delay: 1 }}
           className="flex flex-col md:flex-row gap-6 items-center"
         >
-          <button className="group relative px-14 py-6 bg-orange-600 rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(234,88,12,0.4)]">
+          <button onClick={() => navigate('/store')} className="group relative px-14 py-6 bg-orange-600 rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(234,88,12,0.4)]">
             <span className="flex items-center gap-4 text-white font-black text-sm uppercase tracking-widest">
               Book Your Pre-Order
               <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
             </span>
           </button>
 
-          <button className="px-14 py-6 rounded-2xl border-2 border-orange-600 text-orange-600 font-black hover:bg-orange-600 hover:text-white transition-all text-sm uppercase tracking-widest bg-white/50 backdrop-blur-sm">
+          <button onClick={() => navigate('/store')} className="px-14 py-6 rounded-2xl border-2 border-orange-600 text-orange-600 font-black hover:bg-orange-600 hover:text-white transition-all text-sm uppercase tracking-widest bg-white/50 backdrop-blur-sm">
             Explore Menu
           </button>
         </motion.div>

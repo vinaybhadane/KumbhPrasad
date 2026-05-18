@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 import { ShoppingCart, Flame, ShieldCheck, MapPin, Clock, ArrowRight, Droplets, Gift, Tag, CheckCircle2 } from 'lucide-react';
 
 // Assets
-import bgImagePaper from '../assets/ancient-paper-texture.jpg';
-import imgKumbhPrashad from '../assets/kumbh-prashad.png'; 
-import imgGodavariJal from '../assets/godavari-jal.png';
-import imgDivineKit from '../assets/divine-kit.png';
+import bgImagePaper from '../assets/ancient-paper-texture-optimized.jpg';
+import imgKumbhPrashad from '../assets/kumbh-prashad-optimized.webp'; 
+import imgGodavariJal from '../assets/godavari-jal-optimized.webp';
+import imgDivineKit from '../assets/divine-kit-optimized.webp';
 
 const ProductSection = ({ onAddToCart }) => {
   // Feedback state: item ID store karega jo abhi add hua hai
@@ -15,7 +15,7 @@ const ProductSection = ({ onAddToCart }) => {
   const products = [
     { 
       id: 1, 
-      name: 'KumbhPrashad', 
+      name: 'KumbhPrasad', 
       image: imgKumbhPrashad,
       desc: 'Maha-Kumbh special sanctified offering. Pure, traditional, and filled with divine energy.', 
       originalPrice: 201,
@@ -37,7 +37,7 @@ const ProductSection = ({ onAddToCart }) => {
       id: 3, 
       name: 'Kumbh Divine Kit', 
       image: imgDivineKit,
-      desc: 'Complete spiritual collection: Siddh Jal, Mandir Model, Rudraksh, Prashad, etc.', 
+      desc: 'Complete spiritual collection: Siddh Jal, Mandir Model, Rudraksh, Prasad, etc.', 
       originalPrice: 901,
       price: 501, 
       icon: <Gift size={18} />, 
@@ -123,6 +123,9 @@ const ProductSection = ({ onAddToCart }) => {
               <div className="relative w-full h-72 overflow-hidden bg-orange-50/30">
                 <motion.img 
                   whileHover={{ scale: 1.05 }}
+                  loading="eager"
+                  width="320"
+                  height="288"
                   src={item.image} 
                   alt={item.name} 
                   className="w-full h-full object-contain p-8 z-10 relative"

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 
 // Firebase Imports
 import { auth, db } from './firebase'; 
@@ -20,6 +21,7 @@ import ProductSection from './components/ProductSection';
 import Footer from './components/Footer';
 import LoginPage from './components/LoginPage';
 import AddressPage from './components/AddressPage';
+import SEO from './components/SEO';
 
 // Pages
 import Store from './pages/Store';
@@ -129,7 +131,7 @@ const MainApp = () => {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID, 
       amount: totalAmount * 100, 
       currency: "INR",
-      name: "KUMBH PRASHAD",
+      name: "KumbhPrasad",
       description: "Sacred Pre-Order Booking",
       handler: async function (response) {
         try {
@@ -202,6 +204,7 @@ const MainApp = () => {
 
   return (
     <div className="relative bg-[#FFF9F2] min-h-screen overflow-x-hidden font-sans">
+      <SEO />
       <Navbar 
         cartCount={cartItems.reduce((acc, item) => acc + item.qty, 0)} 
         cartItems={cartItems}
@@ -218,10 +221,10 @@ const MainApp = () => {
 
       <Routes>
         {/* --- Public Routes --- */}
-        <Route path="/" element={<main><Hero /><TrustUrgency /><ProductSection onAddToCart={addToCart} /><Footer /></main>} />
-        <Route path="/store" element={<><Store onAddToCart={addToCart} /><Footer /></>} />
-        <Route path="/about" element={<><About /><Footer /></>} />
-        <Route path="/contact" element={<><Contact /><Footer /></>} />
+        <Route path="/" element={<main><Hero /><TrustUrgency /><ProductSection onAddToCart={addToCart} /><Footer user={user} /></main>} />
+        <Route path="/store" element={<><Store onAddToCart={addToCart} /><Footer user={user} /></>} />
+        <Route path="/about" element={<><About /><Footer user={user} /></>} />
+        <Route path="/contact" element={<><Contact /><Footer user={user} /></>} />
         <Route path="/login" element={<LoginPage onBack={() => navigate('/')} />} />
 
         {/* --- 🛡️ PROTECTED ROUTES (Logged-in Only) --- */}
@@ -265,9 +268,11 @@ const MainApp = () => {
 
 function App() {
   return (
-    <Router>
-      <MainApp />
-    </Router>
+    <HelmetProvider>
+      <Router>
+        <MainApp />
+      </Router>
+    </HelmetProvider>
   );
 }
 

@@ -2,7 +2,7 @@ function Home() {
   return (
     <div className="flex flex-col items-center justify-center h-[80vh] text-center">
       <h1 className="text-5xl font-bold text-orange-600 mb-4">
-        Welcome to KumbhPrashad 🙏
+        Welcome to KumbhPrasad 🙏
       </h1>
 
       <p className="text-lg text-gray-600 max-w-xl">

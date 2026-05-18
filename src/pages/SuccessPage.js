@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { 
   CheckCircle2, Printer, Home, Package, MapPin, 
-  CreditCard, Sparkles, Calendar, ArrowRight, IndianRupee 
+  CreditCard, Sparkles, Calendar, ArrowRight
 } from 'lucide-react';
 
 const SuccessPage = () => {
@@ -63,7 +63,7 @@ const SuccessPage = () => {
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Aapka Queue Number</span>
               <div className="flex items-baseline gap-2">
                 <span className="text-5xl font-serif font-black text-orange-600">#{order.queueNumber}</span>
-                <span className="text-xs font-bold text-orange-800/60 leading-none">Prashad-Vahini</span>
+                <span className="text-xs font-bold text-orange-800/60 leading-none">Prasad-Vahini</span>
               </div>
             </div>
             <div className="text-left md:text-right space-y-1">
@@ -142,7 +142,7 @@ const SuccessPage = () => {
         {/* Bottom Footer */}
         <div className="bg-[#2D1B08] p-4 text-center">
            <p className="text-orange-200 text-[9px] font-black uppercase tracking-[0.4em]">
-             KumbhPrashad • Pure Nashik Tradition • 2026
+             KumbhPrasad • Pure Nashik Tradition • 2026
            </p>
         </div>
       </motion.div>

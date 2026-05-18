@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Users, Zap, Clock, ShieldCheck, TrendingUp, Flame } from 'lucide-react';
+import { Users, Zap, ShieldCheck, TrendingUp } from 'lucide-react';
 
 const TrustUrgency = () => {
   return (

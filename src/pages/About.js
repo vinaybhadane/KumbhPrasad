@@ -6,8 +6,8 @@ import {
 } from 'lucide-react';
 
 // Assets
-import bgPaper from '../assets/ancient-paper-texture.jpg';
-import nashikGhat from '../assets/background.jpg'; 
+import bgPaper from '../assets/ancient-paper-texture-optimized.jpg';
+import nashikGhat from '../assets/background-optimized.jpg'; 
 
 const AboutPage = () => {
   const navigate = useNavigate();
@@ -44,6 +44,8 @@ const AboutPage = () => {
           <img 
             src={nashikGhat} 
             alt="Sacred Nashik Ghats" 
+            width="1920"
+            height="1080"
             className="w-full h-full object-cover grayscale-[30%] sepia-[10%] brightness-[70%]" 
           />
           {/* --- 🚀 FIX: Darker Overlays to kill the 'White Effect' --- */}
@@ -107,7 +109,7 @@ const AboutPage = () => {
             <div className="space-y-6 pt-6">
                 <p className="text-xl text-slate-700 leading-relaxed font-medium">
                   In this hallowed land of Nashik, where every ripple of the Godavari echoes with ancient hymns, 
-                  **KumbhPrashad** was born. We are more than just a service; we are a sacred bridge 
+                  KumbhPrasad was born. We are more than just a service; we are a sacred bridge 
                   connecting your heart to the divine vibrations of the Maha-Kumbh.
                 </p>
                 <p className="text-xl text-slate-700 leading-relaxed font-medium">
@@ -169,7 +171,7 @@ const AboutPage = () => {
               <span className="text-orange-500">Our Sacred Promise.</span>
             </h2>
             <p className="text-orange-100/40 font-black uppercase tracking-[0.4em] text-[10px] mt-8 font-sans">
-              KumbhPrashad • Pure Devotion Delivered
+              KumbhPrasad • Pure Devotion Delivered
             </p>
           </motion.div>
           

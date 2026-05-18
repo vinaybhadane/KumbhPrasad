@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingCart, Flame, ShieldCheck, MapPin, Clock, ArrowRight, Droplets, Gift, Tag, CheckCircle2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 // Assets
-import bgImagePaper from '../assets/ancient-paper-texture.jpg';
-import imgKumbhPrashad from '../assets/kumbh-prashad.png'; 
-import imgGodavariJal from '../assets/godavari-jal.png';
-import imgDivineKit from '../assets/divine-kit.png';
+import bgImagePaper from '../assets/ancient-paper-texture-optimized.jpg';
+import imgKumbhPrashad from '../assets/kumbh-prashad-optimized.webp'; 
+import imgGodavariJal from '../assets/godavari-jal-optimized.webp';
+import imgDivineKit from '../assets/divine-kit-optimized.webp';
 
 const ProductSection = ({ onAddToCart }) => {
+  const navigate = useNavigate();
   // Feedback state: item ID store karega jo abhi add hua hai
   const [addedId, setAddedId] = useState(null);
 
   const products = [
     { 
       id: 1, 
-      name: 'KumbhPrashad', 
+      name: 'KumbhPrasad', 
       image: imgKumbhPrashad,
       desc: 'Maha-Kumbh special sanctified offering. Pure, traditional, and filled with divine energy.', 
       originalPrice: 201,
@@ -37,7 +39,7 @@ const ProductSection = ({ onAddToCart }) => {
       id: 3, 
       name: 'Kumbh Divine Kit', 
       image: imgDivineKit,
-      desc: 'Complete spiritual collection: Siddh Jal, Mandir Model, Rudraksh, Prashad, etc.', 
+      desc: 'Complete spiritual collection: Siddh Jal, Mandir Model, Rudraksh, Prasad, etc.', 
       originalPrice: 901,
       price: 501, 
       icon: <Gift size={18} />, 
@@ -123,6 +125,9 @@ const ProductSection = ({ onAddToCart }) => {
               <div className="relative w-full h-72 overflow-hidden bg-orange-50/30">
                 <motion.img 
                   whileHover={{ scale: 1.05 }}
+                  loading="lazy"
+                  width="320"
+                  height="288"
                   src={item.image} 
                   alt={item.name} 
                   className="w-full h-full object-contain p-8 z-10 relative"
@@ -202,7 +207,7 @@ const ProductSection = ({ onAddToCart }) => {
            viewport={{ once: true }}
            className="text-center"
         >
-          <button className="group relative px-14 py-6 bg-gradient-to-r from-orange-600 to-red-600 rounded-2xl overflow-hidden shadow-[0_25px_50px_rgba(234,88,12,0.3)]">
+          <button onClick={() => navigate('/store')} className="group relative px-14 py-6 bg-gradient-to-r from-orange-600 to-red-600 rounded-2xl overflow-hidden shadow-[0_25px_50px_rgba(234,88,12,0.3)]">
             <span className="relative z-10 flex items-center gap-4 text-white font-black text-sm uppercase tracking-[0.2em]">
               Explore Full Collection
               <ArrowRight size={20} className="group-hover:translate-x-3 transition-transform" />

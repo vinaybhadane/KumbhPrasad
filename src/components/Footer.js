@@ -1,12 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { 
-  Mail, MapPin, Flame, Sparkles, ArrowUp, ChevronRight 
+import {
+  Mail, MapPin, Sparkles, ArrowUp, ChevronRight
 } from 'lucide-react';
 
-// Assets
-import bgPaper from '../assets/ancient-paper-texture.jpg';
+import logoImage from '../assets/klogo-160.webp';
 
 const Footer = ({ user }) => {
   const navigate = useNavigate();
@@ -15,54 +14,39 @@ const Footer = ({ user }) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Logic for conditional redirecting (Track Order)
   const handleTrackOrder = (e) => {
     e.preventDefault();
-    if (user) {
-      navigate('/profile');
-    } else {
-      navigate('/login');
-    }
+    navigate(user ? '/profile' : '/login');
   };
 
   const footerLinks = [
     { name: 'Home', to: '/' },
-    { name: 'Prashad Store', to: '/store' },
+    { name: 'Prasad Store', to: '/store' },
     { name: 'About Us', to: '/about' },
     { name: 'Contact Us', to: '/contact' },
   ];
 
   return (
     <footer className="relative w-full bg-[#FFF9F2] pt-24 overflow-hidden border-t border-orange-100">
-      
-      {/* --- 1. Temple Style Decorative Top Border --- */}
       <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-orange-600 to-transparent opacity-50" />
-      
-      {/* --- 2. Main content Grid --- */}
+
       <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-16 pb-20 relative z-10">
-        
-        {/* Column 1: Brand Essence (Cleaned - No Social Icons) */}
         <div className="flex flex-col gap-8">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-orange-600 rounded-2xl shadow-xl shadow-orange-200">
-              <Flame size={24} className="text-white" />
-            </div>
+            <img src={logoImage} alt="KumbhPrasad logo" className="w-14 h-14 rounded-2xl object-contain bg-white shadow-xl shadow-orange-200 p-2 border border-orange-100" width="56" height="56" loading="lazy" />
             <div className="flex flex-col">
               <span className="text-2xl font-serif font-black tracking-tighter text-[#2D1B08] leading-none">
-                KUMBH<span className="text-orange-600">PRASHAD</span>
+                KUMBH<span className="text-orange-600">PRASAD</span>
               </span>
               <span className="text-[9px] font-black uppercase tracking-[0.3em] text-orange-400 mt-1">Nashik Se Dwar Tak</span>
             </div>
           </div>
-          
-          <p className="text-[#4A3728] text-sm leading-relaxed font-medium italic opacity-80 max-w-sm">
-            "Spreading the divine essence of Nashik’s holy ghats and the Maha-Kumbh 2026 to seekers worldwide with absolute shradha and purity."
-          </p>
 
-          {/* 🚀 FIXED: Social Icons Section Removed */}
+          <p className="text-[#4A3728] text-sm leading-relaxed font-medium italic opacity-80 max-w-sm">
+            "Spreading the divine essence of Nashik's holy ghats and the Maha-Kumbh 2026 to seekers worldwide with absolute shradha and purity."
+          </p>
         </div>
 
-        {/* Column 2: Pavitra Quick Links */}
         <div className="flex flex-col">
           <h4 className="text-xs font-black text-[#2D1B08] mb-10 uppercase tracking-[0.3em] flex items-center gap-2">
             <Sparkles size={14} className="text-orange-500" /> Quick Links
@@ -70,8 +54,8 @@ const Footer = ({ user }) => {
           <ul className="grid grid-cols-1 gap-5">
             {footerLinks.map((link) => (
               <li key={link.name}>
-                <Link 
-                  to={link.to} 
+                <Link
+                  to={link.to}
                   className="text-[#4A3728] text-sm font-bold hover:text-orange-600 transition-all flex items-center justify-between group max-w-[200px]"
                 >
                   <span className="flex items-center gap-3">
@@ -82,9 +66,8 @@ const Footer = ({ user }) => {
                 </Link>
               </li>
             ))}
-            {/* Conditional Track Order Link */}
             <li>
-              <button 
+              <button
                 onClick={handleTrackOrder}
                 className="text-[#4A3728] text-sm font-bold hover:text-orange-600 transition-all flex items-center justify-between group w-full max-w-[200px] text-left"
               >
@@ -98,7 +81,6 @@ const Footer = ({ user }) => {
           </ul>
         </div>
 
-        {/* Column 3: Reach Us (Clean) */}
         <div className="flex flex-col">
           <h4 className="text-xs font-black text-[#2D1B08] mb-10 uppercase tracking-[0.3em] flex items-center gap-2">
             <MapPin size={14} className="text-orange-500" /> Sacred Nashik
@@ -123,28 +105,26 @@ const Footer = ({ user }) => {
               <div className="flex flex-col">
                 <span className="text-[10px] font-black uppercase text-orange-400 tracking-widest mb-1">Email Seva</span>
                 <span className="text-sm font-bold text-orange-700 underline underline-offset-4 decoration-orange-200 font-sans">
-                  bhakti@kumbhprashad.com
+                  seva@kumbhprasad.app
                 </span>
               </div>
             </div>
           </div>
         </div>
-
       </div>
 
-      {/* --- 3. Bottom Bar --- */}
       <div className="relative bg-[#2D1B08] py-10 px-6 border-t border-white/5">
-        <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8">
+        <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col items-center md:items-start gap-2">
-             <p className="text-orange-200/60 text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase text-center md:text-left">
-               © 2026 KUMBHPRASHAD • MADE WITH PURE BHAKTI IN NASHIK
-             </p>
-             <p className="text-white/20 text-[8px] font-black tracking-[0.4em] uppercase">
-               Authorized Maha-Kumbh 2026 Seva Provider
-             </p>
+            <p className="text-orange-200/60 text-[10px] md:text-xs font-bold tracking-[0.25em] uppercase text-center md:text-left">
+              © 2026 KUMBHPRASAD • MADE WITH PURE BHAKTI IN NASHIK
+            </p>
+            <p className="text-white/20 text-[8px] font-black tracking-[0.4em] uppercase">
+              Authorized Maha-Kumbh 2026 Seva Provider
+            </p>
           </div>
-          
-          <motion.button 
+
+          <motion.button
             onClick={scrollToTop}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -157,13 +137,13 @@ const Footer = ({ user }) => {
           </motion.button>
         </div>
 
-        {/* Backdrop Decorative Mandala Pattern */}
         <div className="absolute inset-0 opacity-5 pointer-events-none overflow-hidden flex justify-center items-center">
-           <img 
-            src="https://www.transparenttextures.com/patterns/mandala.png" 
-            alt="mandala pattern" 
+          <img
+            src="https://www.transparenttextures.com/patterns/mandala.png"
+            alt="mandala pattern"
             className="w-64 invert"
-           />
+            loading="lazy"
+          />
         </div>
       </div>
     </footer>

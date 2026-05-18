@@ -12,7 +12,6 @@ const Cart = ({ isOpen, setIsOpen, cartItems, onUpdateQty, onRemove, user, onChe
   
   // --- 🧮 Final Math Logic ---
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
-  const savings = cartItems.reduce((acc, item) => acc + (item.originalPrice - item.price) * item.qty, 0);
   
   // 🚚 Delivery Logic: ₹40 if subtotal < 100, else FREE
   const deliveryThreshold = 100;
@@ -92,7 +91,7 @@ const Cart = ({ isOpen, setIsOpen, cartItems, onUpdateQty, onRemove, user, onChe
                   >
                     {/* Item Image */}
                     <div className="w-20 h-20 bg-orange-50 rounded-xl flex-shrink-0 border border-orange-100 overflow-hidden">
-                      <img src={item.image} alt={item.name} className="w-full h-full object-contain p-2" />
+                      <img src={item.image} alt={item.name} className="w-full h-full object-contain p-2" width="80" height="80" loading="lazy" />
                     </div>
 
                     {/* Item Details */}

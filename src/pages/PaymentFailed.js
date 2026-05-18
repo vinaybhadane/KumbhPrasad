@@ -48,7 +48,7 @@ const PaymentFailed = () => {
             <div>
               <h4 className="font-black text-[#2D1B08] text-sm uppercase tracking-tight">Your Money is Safe</h4>
               <p className="text-[11px] text-orange-900 font-medium leading-relaxed mt-1">
-                If the amount has been deducted from your bank account, please do not worry. It will be automatically refunded to your original payment method within **3-5 working days**.
+                If the amount has been deducted from your bank account, please do not worry. It will be automatically refunded to your original payment method within 3-5 working days.
               </p>
             </div>
           </div>
@@ -106,7 +106,7 @@ const PaymentFailed = () => {
       </motion.div>
 
       <p className="mt-8 text-slate-400 text-[10px] font-bold uppercase tracking-[0.4em]">
-        KumbhPrashad • Secure Payment Gateway
+        KumbhPrasad • Secure Payment Gateway
       </p>
     </div>
   );
