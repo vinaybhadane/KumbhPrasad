@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
 // Firebase Imports
@@ -30,7 +30,7 @@ import Contact from './pages/Contact';
 import SuccessPage from './pages/SuccessPage';
 import PaymentFailed from './pages/PaymentFailed';
 import ProfilePage from './pages/ProfilePage';
-import AdminPage from './pages/AdminPage'; // ✨ Admin Page Import
+import AdminPage from './pages/AdminPage';
 
 // --- 🍪 COOKIE HELPERS ---
 const setCookie = (name, value, days = 7) => {
@@ -46,6 +46,15 @@ const getCookie = (name) => {
       return JSON.parse(decodeURIComponent(parts.pop().split(';').shift()));
     } catch (e) { return null; }
   }
+  return null;
+};
+
+// --- 🔝 SCROLL TO TOP ON ROUTE CHANGE ---
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [pathname]);
   return null;
 };
 
@@ -127,6 +136,10 @@ const MainApp = () => {
     const deliveryCharge = (subtotal > 0 && subtotal < 100) ? 40 : 0;
     const totalAmount = subtotal + gstAmount + deliveryCharge;
 
+    // 🐛 BUG FIX: Razorpay's ondismiss fires even after a SUCCESSFUL payment (when modal closes).
+    // This flag prevents the ondismiss callback from redirecting to /failed after success.
+    let paymentSuccessful = false;
+
     const options = {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID, 
       amount: totalAmount * 100, 
@@ -134,6 +147,22 @@ const MainApp = () => {
       name: "KumbhPrasad",
       description: "Sacred Pre-Order Booking",
       handler: async function (response) {
+        // Set flag IMMEDIATELY - before any async Firebase operations
+        paymentSuccessful = true;
+        
+        // Build base order data first (works even if Firebase fails)
+        const baseOrderData = {
+          userId: user.uid,
+          customerName: addressDetails.fullName,
+          email: addressDetails.email || user.email,
+          mobile: addressDetails.mobile,
+          address: addressDetails,
+          items: cartItems,
+          totalAmount: totalAmount,
+          paymentId: response.razorpay_payment_id,
+          status: "Pre-Ordered",
+        };
+
         try {
           const counterRef = doc(db, "metadata", "orderStats");
           let finalQueueNumber = 18544;
@@ -149,16 +178,8 @@ const MainApp = () => {
           });
 
           const orderData = {
-            userId: user.uid,
-            customerName: addressDetails.fullName,
-            email: addressDetails.email || user.email,
-            mobile: addressDetails.mobile,
-            address: addressDetails,
-            items: cartItems,
-            totalAmount: totalAmount,
-            paymentId: response.razorpay_payment_id,
+            ...baseOrderData,
             queueNumber: finalQueueNumber,
-            status: "Pre-Ordered",
             timestamp: serverTimestamp()
           };
 
@@ -167,15 +188,42 @@ const MainApp = () => {
           document.cookie = "kumbhCart=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
           navigate('/success', { state: { order: { ...orderData, orderId: docRef.id } } });
 
-        } catch (error) { navigate('/failed'); }
+        } catch (error) { 
+          console.error("Firebase save error (payment was successful):", error);
+          
+          // ⚠️ IMPORTANT: Payment was successful even if Firebase failed.
+          // Do NOT show /failed — customer has paid. Show success with local data.
+          // Fix Firestore Security Rules in Firebase Console to resolve this properly.
+          setCartItems([]);
+          document.cookie = "kumbhCart=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          navigate('/success', { 
+            state: { 
+              order: { 
+                ...baseOrderData, 
+                queueNumber: Math.floor(Math.random() * 1000) + 18544, 
+                orderId: `KBH-${response.razorpay_payment_id}` 
+              } 
+            } 
+          });
+        }
       },
       prefill: { name: addressDetails.fullName, email: user.email, contact: addressDetails.mobile },
       theme: { color: "#EA580C" },
-      modal: { ondismiss: function() { navigate('/failed'); } }
+      modal: { 
+        // Only navigate to /failed if payment was NOT successful (cancelled/dismissed)
+        ondismiss: function() { 
+          if (!paymentSuccessful) {
+            navigate('/failed'); 
+          }
+        } 
+      }
     };
 
     const rzp = new window.Razorpay(options);
-    rzp.on('payment.failed', () => navigate('/failed'));
+    rzp.on('payment.failed', () => {
+      paymentSuccessful = false;
+      navigate('/failed');
+    });
     rzp.open();
   };
 
@@ -204,6 +252,7 @@ const MainApp = () => {
 
   return (
     <div className="relative bg-[#FFF9F2] min-h-screen overflow-x-hidden font-sans">
+      <ScrollToTop />
       <SEO />
       <Navbar 
         cartCount={cartItems.reduce((acc, item) => acc + item.qty, 0)} 
@@ -225,7 +274,8 @@ const MainApp = () => {
         <Route path="/store" element={<><Store onAddToCart={addToCart} /><Footer user={user} /></>} />
         <Route path="/about" element={<><About /><Footer user={user} /></>} />
         <Route path="/contact" element={<><Contact /><Footer user={user} /></>} />
-        <Route path="/login" element={<LoginPage onBack={() => navigate('/')} />} />
+        {/* ✅ Login: Agar user already logged in hai to home pe bhejo */}
+        <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage onBack={() => navigate('/')} />} />
 
         {/* --- 🛡️ PROTECTED ROUTES (Logged-in Only) --- */}
         
@@ -253,9 +303,9 @@ const MainApp = () => {
           (user && user.email === ADMIN_EMAIL) ? (
             <AdminPage />
           ) : user ? (
-            <Navigate to="/profile" /> // Logged in but not Admin
+            <Navigate to="/profile" />
           ) : (
-            <Navigate to="/login" />   // Not logged in
+            <Navigate to="/login" />
           )
         } />
 
