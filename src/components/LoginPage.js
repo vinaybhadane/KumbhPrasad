@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { Sparkles, ShieldCheck } from 'lucide-react';
+import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
+import { Sparkles, ShieldCheck, Mail, Lock, LogIn } from 'lucide-react';
 import logoImage from '../assets/klogo-160.webp';
 
 const LoginPage = ({ onBack }) => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState('testlogin@gmail.com');
+  const [password, setPassword] = useState('123456789');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
@@ -20,8 +24,23 @@ const LoginPage = ({ onBack }) => {
     }
   };
 
+  const handleEmailLogin = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate('/', { replace: true });
+    } catch (err) {
+      setError("Login failed. Please check your credentials.");
+      console.error("Email Login Error:", err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[#FFF9F2] relative overflow-hidden px-6">
+    <div className="min-h-screen w-full flex items-center justify-center bg-[#FFF9F2] relative overflow-hidden px-6 py-12">
       
       {/* Background Decorative Mandalas */}
       <div className="absolute top-[-10%] left-[-10%] opacity-[0.03] pointer-events-none">
@@ -59,19 +78,74 @@ const LoginPage = ({ onBack }) => {
         </div>
 
         {/* Heading */}
-        <div className="mb-8">
+        <div className="mb-6">
           <h2 className="text-xl font-bold text-slate-800 mb-2">Prasad Seva mein Login Karein</h2>
           <p className="text-sm text-slate-500 font-medium leading-relaxed px-2">
-            Apne Google account se surakshit roop se login karein aur apna Pavitra Prasad pre-order karein.
+            Apne account se surakshit roop se login karein aur apna Pavitra Prasad pre-order karein.
           </p>
+        </div>
+
+        {error && (
+          <div className="mb-4 text-xs font-bold text-red-600 bg-red-50 py-2 px-4 rounded-xl border border-red-100">
+            {error}
+          </div>
+        )}
+
+        {/* Email/Password Form */}
+        <form onSubmit={handleEmailLogin} className="space-y-4 mb-6 text-left">
+          <div className="relative">
+            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <input 
+              type="email" 
+              required 
+              placeholder="Email Address" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-3.5 text-[#2D1B08] font-semibold text-sm focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all placeholder:text-slate-400"
+            />
+          </div>
+          
+          <div className="relative">
+            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            <input 
+              type="password" 
+              required 
+              placeholder="Password" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-white border border-slate-200 rounded-2xl pl-12 pr-4 py-3.5 text-[#2D1B08] font-semibold text-sm focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all placeholder:text-slate-400"
+            />
+          </div>
+
+          <motion.button 
+            type="submit"
+            disabled={loading}
+            whileHover={{ scale: 1.02, boxShadow: '0 8px 30px rgba(234,88,12,0.15)' }}
+            whileTap={{ scale: 0.97 }}
+            className={`w-full flex items-center justify-center gap-2 bg-orange-600 text-white rounded-2xl px-4 py-4 font-black text-sm uppercase tracking-wider transition-all duration-300 shadow-md ${loading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-orange-700'}`}
+          >
+            {loading ? 'Logging in...' : (
+              <>
+                <LogIn size={18} /> Login
+              </>
+            )}
+          </motion.button>
+        </form>
+
+        {/* Divider */}
+        <div className="my-6 flex items-center gap-4">
+          <div className="flex-1 h-px bg-slate-200" />
+          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">OR</span>
+          <div className="flex-1 h-px bg-slate-200" />
         </div>
 
         {/* Google Login Button */}
         <motion.button 
-          whileHover={{ scale: 1.02, boxShadow: '0 8px 30px rgba(234,88,12,0.15)' }}
+          type="button"
+          whileHover={{ scale: 1.02, boxShadow: '0 8px 30px rgba(0,0,0,0.05)' }}
           whileTap={{ scale: 0.97 }}
           onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center gap-4 bg-white border border-slate-200 rounded-2xl px-4 py-4 hover:border-orange-200 transition-all duration-300 shadow-sm"
+          className="w-full flex items-center justify-center gap-4 bg-white border border-slate-200 rounded-2xl px-4 py-3.5 hover:border-slate-300 transition-all duration-300 shadow-sm"
         >
           {/* Google G Icon */}
           <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">

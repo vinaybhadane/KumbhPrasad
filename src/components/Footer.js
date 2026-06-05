@@ -22,6 +22,10 @@ const Footer = ({ user }) => {
     { name: 'Prasad Store', to: '/store' },
     { name: 'About Us', to: '/about' },
     { name: 'Contact Us', to: '/contact' },
+    { name: 'Terms & Conditions', to: '/terms' },
+    { name: 'Privacy Policy', to: '/privacy' },
+    { name: 'Refund Policy', to: '/refund' },
+    { name: 'Shipping Policy', to: '/shipping' },
   ];
 
   const certBadges = [

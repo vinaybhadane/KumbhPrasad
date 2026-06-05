@@ -94,6 +94,15 @@ const ContactPage = () => {
                          <p className="font-bold text-lg text-orange-50">seva@kumbhprasad.app</p>
                        </div>
                     </div>
+
+                    {/* Phone */}
+                    <div className="flex items-start gap-5">
+                       <div className="p-3.5 bg-orange-600 rounded-xl shadow-lg shadow-orange-900/20"><Smartphone size={22}/></div>
+                       <div>
+                         <p className="text-[10px] font-black text-orange-400 uppercase tracking-[0.2em] mb-1">Phone Support</p>
+                         <p className="font-bold text-lg text-orange-50">+91 7083562087</p>
+                       </div>
+                    </div>
                   </div>
                 </div>
                 <div className="absolute top-0 right-0 opacity-[0.05] group-hover:scale-110 transition-transform duration-1000">

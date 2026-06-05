@@ -31,7 +31,10 @@ import SuccessPage from './pages/SuccessPage';
 import PaymentFailed from './pages/PaymentFailed';
 import ProfilePage from './pages/ProfilePage';
 import AdminPage from './pages/AdminPage';
-
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
+import Refund from './pages/Refund';
+import Shipping from './pages/Shipping';
 // --- 🍪 COOKIE HELPERS ---
 const setCookie = (name, value, days = 7) => {
   const expires = new Date(Date.now() + days * 864e5).toUTCString();
@@ -274,6 +277,10 @@ const MainApp = () => {
         <Route path="/store" element={<><Store onAddToCart={addToCart} /><Footer user={user} /></>} />
         <Route path="/about" element={<><About /><Footer user={user} /></>} />
         <Route path="/contact" element={<><Contact /><Footer user={user} /></>} />
+        <Route path="/terms" element={<><Terms /><Footer user={user} /></>} />
+        <Route path="/privacy" element={<><Privacy /><Footer user={user} /></>} />
+        <Route path="/refund" element={<><Refund /><Footer user={user} /></>} />
+        <Route path="/shipping" element={<><Shipping /><Footer user={user} /></>} />
         {/* ✅ Login: Agar user already logged in hai to home pe bhejo */}
         <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage onBack={() => navigate('/')} />} />
 

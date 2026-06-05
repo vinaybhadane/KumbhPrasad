@@ -127,7 +127,7 @@ const ProductCard = ({ item, i, onAddToCart }) => {
         {/* Trust chips */}
         <div className="flex gap-2 mb-6">
           <div className="flex items-center gap-1.5 bg-green-50 text-green-700 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider border border-green-100">
-            <ShieldCheck size={11} /> Lab Tested
+            <ShieldCheck size={11} /> Authentic
           </div>
           <div className="flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider border border-blue-100">
             <MapPin size={11} /> Ram Kund
